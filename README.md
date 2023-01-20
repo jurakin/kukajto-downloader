@@ -4,7 +4,7 @@ This program can find the direct url of a video or subtitle file from `film.kuka
 
 ## How to use
 
-- Clone repository `git clone https://github.com/jurajhonsch/kukajto-downnloader.git`
+- Clone repository `git clone https://github.com/jurajhonsch/kukajto-downloader.git`
 - Download chrome latest version
 - Install requirements (`selenium4`, `argparse`) `python3 -m pip install -r requirements.txt`
 - Go to https://kukaj.io/ and find film or episode.
