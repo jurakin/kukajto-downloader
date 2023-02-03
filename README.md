@@ -10,6 +10,7 @@ This program can find the direct url of a video or subtitle file from `film.kuka
 - Go to https://kukaj.io/ and find film or episode.
 - Copy url (e.g https://film.kukaj.io/matrix) and paste into program.
 - Run `python3 kukajto-downloader.py https://film.kukaj.io/matrix`
+- The results are in format `<url of video>,<url of subtitles if any>`
 
 ## Examples
 
@@ -29,6 +30,10 @@ Get multiple urls of video and subtitle files (if any) at once.
 
 `python3 kukajto-downloader.py https://film.kukaj.io/matrix/1?lng=EN https://film.kukaj.io/avatar/1?subs=1&lng=EN`
 
+You can output the results to the file.
+
+`python3 kukajto-downloader.py https://film.kukaj.io/matrix > output.txt`
+
 Special arguments to chrome driver
 
 `python3 kukajto-downloader.py https://film.kukaj.io/matrix -a="start-maximized" -a="--disable-extensions"`
@@ -40,3 +45,9 @@ Special arguments to chrome driver
 ## License
 
 This program is released under MIT License.
+
+## Credits
+
+In my project I used following icons:
+ - [kukajto](https://kukaj.io) favicon 228x228 [icon](https://kukaj.io/img/icons/228x228.png)
+ - [flaticon](https://flaticon.com) icons [download file icon](https://www.flaticon.com/free-icons/download-file)

@@ -3,6 +3,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 
 from urllib.parse import urljoin
 import logging, argparse
@@ -43,25 +44,33 @@ parser.add_argument(
     default=",",
     help="separate video and subtitle files' url (comma by default)",
 )
+parser.add_argument("-n", "--no-headless", action="store_true", help="turn of headless mode")
 parser.add_argument("-q", "--quiet", action="store_true", help="quiet mode")
 parser.add_argument("-v", "--verbose", action="store_true", help="verbose mode")
 
 args = parser.parse_args()
 
-level = logging.WARN
-if args.quiet:
-    level = logging.ERROR
-elif args.verbose:
-    level = logging.DEBUG
-
-logging.basicConfig(format="%(levelname)s : %(message)s", level=level)
-
 if args.driverpath:
     service = Service(args.driverpath)
 else:
-    service = Service()
+    service = Service(ChromeDriverManager(path=r".").install())
 
 options = Options()
+
+if args.quiet:
+    options.add_argument("--log-level=3")
+    level = logging.ERROR
+elif args.verbose:
+    options.add_argument("--log-level=0")
+    level = logging.DEBUG
+else:
+    options.add_argument("--log-level=2")
+    level = logging.WARN
+
+logging.basicConfig(format="%(levelname)s : %(message)s", level=level)
+
+if not args.no_headless:
+    options.add_argument("--headless")
 
 for arg in args.add_argument:
     options.add_argument(arg[0])
@@ -121,6 +130,6 @@ for url in args.url:
     except:
         logging.exception(f"error on {url} url")
 
-driver.close()
+driver.quit()
 
 logging.info("closing bye")
