@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Kukajto Downloader</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>
+        <img class="logo" src="favicon.png" /><span>Kukajto Downloader</span>
+      </h1>
+      <p>
+        This program can find the direct url of a video or subtitle file from
+        film.kukaj.io or serial.kukaj.io which can be used for downloading the
+        video or opening the vlc network stream.
+      </p>
+      <div class="box">
+        <button class="submit-btn" style="--percent: 100%">
+          <span>Analyze</span>
+        </button>
+      </div>
+      <div class="box -row">
+        <button class="download-video-btn" style="--percent: 0%" disabled>
+          <span>Download video</span>
+        </button>
+        <button class="download-subs-btn" style="--percent: 0%" disabled>
+          <span>Download subs</span>
+        </button>
+      </div>
+      <div class="box">
+        <video class="player" controls poster="frame.png"></video>
+      </div>
+      <div class="box">
+        <div class="result-box">
+          <a class="result video-result" title="video url">video not avaible</a>
+          <a class="result subs-result" title="subs url">subs not avaible</a>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="/eel.js"></script>
+  <script type="text/javascript" src="/script.js"></script>
+</html>

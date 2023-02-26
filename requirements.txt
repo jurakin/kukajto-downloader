@@ -1,2 +1,5 @@
-selenium
+selenium>=4.7
 webdriver-manager
+eel
+requests
+tk
