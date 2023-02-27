@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 from src.kukajto_downloader import __version__
 
@@ -10,8 +10,9 @@ setup(
     version=__version__,
     license="MIT",
     author_email="jurakin.dev@gmail.com",
-    packages=find_packages("src"),
+    packages=["kukajto_downloader"],
     package_dir={"": "src"},
+    package_data={"kukajto_downloader": ["web/assets/*"]},
     include_package_data=True,
     url="https://github.com/jurakin/kukajto-downloader",
     keywords=["kukajto downloader", "kukaj", "kukajto", "downloader", "gui"],
