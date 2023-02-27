@@ -12,6 +12,7 @@ setup(
     author_email="jurakin.dev@gmail.com",
     packages=find_packages("src"),
     package_dir={"": "src"},
+    include_package_data=True,
     url="https://github.com/jurakin/kukajto-downloader",
     keywords=["kukajto downloader", "kukaj", "kukajto", "downloader", "gui"],
     python_requires=">=3.7",
