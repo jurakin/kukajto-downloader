@@ -7,3 +7,5 @@ VIDEO_SUFFIX = ".mp4"
 SUBS_SUFFIX = ".vtt"
 
 CHUNK_SIZE = 1 << 20 # 1 MiB
+
+DRIVER_MANAGER_DIR = r"." # default driver installation directory

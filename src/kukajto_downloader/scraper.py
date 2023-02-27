@@ -1,11 +1,11 @@
 from selenium.webdriver.common.by import By
 
-from kukajto_downloader.utils import urlparse
+from .utils import urlparse
 
-from kukajto_downloader.exceptions import UnsupportedSourceError
-from kukajto_downloader.exceptions import UnsupportedStructureError
+from .exceptions import UnsupportedSourceError
+from .exceptions import UnsupportedStructureError
 
-from kukajto_downloader.constants import STREAMTAPE_SOURCE, MIXDROP_SOURCE
+from .constants import STREAMTAPE_SOURCE, MIXDROP_SOURCE
 
 
 class ScraperTemplate:

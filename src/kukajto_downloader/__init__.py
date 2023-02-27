@@ -1,14 +1,14 @@
-from kukajto_downloader.wrapper import Kukaj
+from .wrapper import Kukaj
 
-from kukajto_downloader.exceptions import BaseError
-from kukajto_downloader.exceptions import UnsupportedSiteError
-from kukajto_downloader.exceptions import UnsupportedSourceError
-from kukajto_downloader.exceptions import UnsupportedStructureError
+from .exceptions import KukajError
+from .exceptions import UnsupportedSiteError
+from .exceptions import UnsupportedSourceError
+from .exceptions import UnsupportedStructureError
 
 __all__ = [
     "Kukaj",
     
-    "BaseError",
+    "KukajError",
     "UnsupportedSiteError",
     "UnsupportedSourceError",
     "UnsupportedStructureError",

@@ -3,34 +3,26 @@ from selenium.webdriver import ChromeOptions
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-from kukajto_downloader.wrapper import Kukaj
+from ..wrapper import Kukaj
 
-from kukajto_downloader.web.dialogs import ask_file_save_location
-from kukajto_downloader.web.utils import download_file
-from kukajto_downloader.web.constants import ASSETS_DIR
-from kukajto_downloader.web.constants import HOME_PAGE
-from kukajto_downloader.web.constants import VIDEO_SUFFIX
-from kukajto_downloader.web.constants import SUBS_SUFFIX
+from .dialogs import ask_file_save_location
+from .utils import download_file
+from .constants import ASSETS_DIR
+from .constants import HOME_PAGE
+from .constants import VIDEO_SUFFIX
+from .constants import SUBS_SUFFIX
+from .constants import DRIVER_MANAGER_DIR
 import eel
-
-options = ChromeOptions()
-options.add_argument("--incognito")
-
-service = Service(ChromeDriverManager(path=r".").install())
-driver = webdriver.Chrome(service=service, options=options)
-
-driver.get(HOME_PAGE)
-
-user_agent = "Mozilla/5.0"
-user_agent = driver.execute_script("""return window.navigator.userAgent;""")
 
 data = {
     "video": "",
     "subs": "",
 }
 
-eel.init(ASSETS_DIR)
+driver = None
+user_agent = "Mozilla/5.0"
 
+eel.init(ASSETS_DIR)
 
 @eel.expose
 def analyze():
@@ -64,8 +56,24 @@ def download_subs():
     
     return True
 
+def create_driver():
+    options = ChromeOptions()
+    options.add_argument("--incognito")
+
+    service = Service(ChromeDriverManager(path=DRIVER_MANAGER_DIR).install())
+    driver = webdriver.Chrome(service=service, options=options)
+
+    driver.get(HOME_PAGE)
+
+    return driver
 
 def main():
+    global driver, user_agent
+    
+    driver = create_driver()
+
+    user_agent = driver.execute_script("""return window.navigator.userAgent;""")
+
     try:
         eel.start("index.html", size=(480, 640))
     except (KeyboardInterrupt, SystemExit):

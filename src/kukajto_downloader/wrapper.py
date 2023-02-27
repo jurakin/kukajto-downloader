@@ -1,13 +1,13 @@
-from kukajto_downloader.scraper import Scraper
+from .scraper import Scraper
 
-from kukajto_downloader.utils import urlparse
+from .utils import urlparse
 
-from kukajto_downloader.constants import KUKAJ_DOMAINS
-from kukajto_downloader.constants import KUKFRAME_IFRAME
-from kukajto_downloader.constants import NEEDSLEEP_IFRAME
+from .constants import KUKAJ_DOMAINS
+from .constants import KUKFRAME_IFRAME
+from .constants import NEEDSLEEP_IFRAME
 
-from kukajto_downloader.exceptions import UnsupportedSiteError
-from kukajto_downloader.exceptions import UnsupportedStructureError
+from .exceptions import UnsupportedSiteError
+from .exceptions import UnsupportedStructureError
 
 from selenium.common.exceptions import NoSuchElementException
 

@@ -2,7 +2,7 @@ import requests
 from tqdm import tqdm
 
 
-from kukajto_downloader.web.constants import CHUNK_SIZE
+from .constants import CHUNK_SIZE
 
 def download_file(url, file, headers={}, update=lambda percent: None):
     page = requests.get(url, headers=headers, stream=True)

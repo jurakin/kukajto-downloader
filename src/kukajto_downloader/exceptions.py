@@ -1,19 +1,19 @@
-class BaseError(Exception):
+class KukajError(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
 
 
-class UnsupportedStructureError(BaseError):
+class UnsupportedStructureError(KukajError):
     pass
 
 
-class UnsupportedSiteError(BaseError):
+class UnsupportedSiteError(KukajError):
     pass
 
 
-class UnsupportedSourceError(BaseError):
+class UnsupportedSourceError(KukajError):
     pass
 
 
-class DownloadError(BaseError):
+class DownloadError(KukajError):
     pass
