@@ -10,7 +10,7 @@ setup(
     version=__version__,
     license="MIT",
     author_email="jurakin.dev@gmail.com",
-    packages=["kukajto_downloader"],
+    packages=["kukajto_downloader", "kukajto_downloader.web"],
     package_dir={"": "src"},
     package_data={"kukajto_downloader": ["web/assets/*"]},
     include_package_data=True,
