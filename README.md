@@ -14,17 +14,17 @@ This program can find the direct url of a video or subtitle file from `film.kuka
 
 The downloader currently supports following sources:
 
-- ✅ TAP
-- ✅ MIX
-- ❌ NET
-- ❌ MON
-- ❌ DOD
+- [x] TAP
+- [x] MIX
+- [ ] NET
+- [ ] MON
+- [ ] DOD
 
 ## Using in code
 
 You can use the library in your code:
 
-```
+```python
 from selenium import webdriver
 
 from kukajto_downloader import Kukaj
