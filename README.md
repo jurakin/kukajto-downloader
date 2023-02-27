@@ -42,6 +42,10 @@ print(subs)
 driver.quit()
 ```
 
+## Preview
+
+![preview](./preview.gif)
+
 ## Disclaimer
 
 FOR EDUCATIONAL AND INFORMATIONAL PURPOSES ONLY.
