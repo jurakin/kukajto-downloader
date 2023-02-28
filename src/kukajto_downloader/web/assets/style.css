@@ -1,3 +1,10 @@
+@font-face {
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: 400;
+    src: url("Ubuntu-Regular.ttf") format("truetype");
+}
+
 * {
     margin: 0;
     padding: 0;
