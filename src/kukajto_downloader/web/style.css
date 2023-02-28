@@ -1,0 +1,135 @@
+@font-face {
+    font-family: Ubuntu;
+    font-style: normal;
+    font-weight: 400;
+    src: url("Ubuntu-Regular.ttf") format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-family: Ubuntu;
+    outline: none;
+    color: inherit;
+    border: none;
+
+    --primary: #e72650;
+    --secondary: #282828;
+    --white: #ffffff;
+    --black: #1c1c1c;
+}
+
+.logo {
+    width: auto;
+    height: 2em;
+    margin-right: 1em;
+    vertical-align: bottom;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+p, a {
+    line-height: 1.3em;
+}
+
+span {
+    font: inherit;
+    color: inherit;
+}
+
+body {
+    padding: 1em;
+    background-color: var(--secondary);
+    color: var(--white);
+}
+
+input, button {
+    padding: .5em;
+    border-radius: 1em;
+    background-color: var(--secondary);
+}
+
+input {
+    border: 1px solid transparent;
+}
+input:hover, input:focus {
+    border-color: var(--primary);
+}
+input:disabled {
+    border-color: transparent;
+}
+
+button {
+    cursor: pointer;
+
+    z-index: 0;
+    position: relative;
+    
+    background-color: var(--black);
+}
+button::before {
+    content: "";
+    
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    height: 100%;
+    width: var(--percent);
+    
+    background-color: var(--primary);
+    border-radius: inherit;
+    transition: width .5s ease;
+}
+button:disabled {
+    cursor: not-allowed;
+}
+
+.wrap {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1em;
+}
+
+.box {
+    width: 100%;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+}
+.box.-row {
+    flex-direction: row;
+}
+.box.-col {
+    flex-direction: column;
+}
+
+.box * {
+    width: 100%;
+}
+
+.progress-bar {
+    width: 0;
+    height: 1em;
+    transition: width .3s ease;
+    display: block;
+    background-color: var(--primary);
+}
+
+.result {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+}
+.result-box {
+    padding: 1em;
+    background-color: var(--black);
+}
