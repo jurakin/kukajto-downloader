@@ -1,0 +1,4 @@
+include README.md
+include LICENSE
+
+graft src/kukajto_downloader/web/assets

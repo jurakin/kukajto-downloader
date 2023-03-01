@@ -1,5 +1,4 @@
-from setuptools import setup
-
+from setuptools import setup, find_packages
 from src.kukajto_downloader import __version__
 
 setup(
@@ -10,7 +9,8 @@ setup(
     version=__version__,
     license="MIT",
     author_email="jurakin.dev@gmail.com",
-    packages=["kukajto_downloader", "kukajto_downloader.web"],
+    author_name="Juraj Honsch",
+    packages=find_packages("src"),
     package_dir={"": "src"},
     package_data={"kukajto_downloader": ["web/assets/*"]},
     include_package_data=True,

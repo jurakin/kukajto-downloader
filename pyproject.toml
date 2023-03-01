@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kukajto-downloader"
+version = "1.1"
+authors = [
+    { name="Juraj Honsch", email="jurakin.dev@gmail.com" },
+]
+description = "This program can find the direct url of a video or subtitle file from kukaj.io."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "selenium>=4.7",
+    "webdriver-manager",
+    "eel",
+    "requests",
+    "tk",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+]
+
+[project.scripts]
+kukajto-downloader = "kukajto_downloader.web:main"
+
+[tool.setuptools.dynamic] 
+readme = {file = ["README.md"]}
+
+[project.urls]
+"Homepage" = "https://github.com/jurakin/kukajto-downloader"
+"Bug Tracker" = "https://github.com/jurakin/kukajto-downloader/issues"

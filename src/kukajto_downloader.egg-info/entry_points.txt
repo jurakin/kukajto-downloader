@@ -1,0 +1,2 @@
+[console_scripts]
+kukajto-downloader = kukajto_downloader.web:main
