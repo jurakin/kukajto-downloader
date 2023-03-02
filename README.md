@@ -2,9 +2,15 @@
 
 This program can find the direct url of a video or subtitle file from `film.kukaj.io` or `serial.kukaj.io`, which can be used for downloading the video or opening the vlc network stream.
 
+## Installation
+
+- Windows
+  - Install precompiled [latest setup from releases](https://github.com/jurakin/kukajto-downloader/releases/latest)
+- Python and cmd use
+  - Install from pip package `pip install kukajto-downloader`
+
 ## How to use
 
-- Install pip package `pip install git+https://github.com/jurakin/kukajto-downloader`
 - Run `kukajto-downloader`
 - Select the video
 - Click `Analyze`
