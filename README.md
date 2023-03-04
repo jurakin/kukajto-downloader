@@ -4,6 +4,7 @@ This program can find the direct url of a video or subtitle file from `film.kuka
 
 ## Installation
 
+- [Google Chrome](https://www.google.com/chrome/) (a reasonable version) must be installed to use the downloader.
 - Windows
   - Install precompiled [latest setup from releases](https://github.com/jurakin/kukajto-downloader/releases/latest)
 - Python and cmd use
