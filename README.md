@@ -1,10 +1,12 @@
+<img src="./favicon.png" width="100px" alt="KukajTo Downloader"/>
+
 # KukajTo Downloader - get a direct url to a video or subtitle file
 
-This program can find the direct url of a video or subtitle file from `film.kukaj.io` or `serial.kukaj.io`, which can be used for downloading the video or opening the vlc network stream.
+This program can find the direct url of a video or subtitle file from [kukaj.to](https://kukaj.io/), that can be opened in the [VLC media player](https://www.videolan.org/vlc/).
 
 ## Installation
 
-- [Google Chrome](https://www.google.com/chrome/) (a reasonable version) must be installed to use the downloader.
+- [Google Chrome](https://www.google.com/chrome/) (a reasonable version) must be installed in order **to use web gui of the downloader**.
 - Windows
   - Install precompiled [latest setup from releases](https://github.com/jurakin/kukajto-downloader/releases/latest)
 - Python and cmd use
@@ -12,20 +14,36 @@ This program can find the direct url of a video or subtitle file from `film.kuka
 
 ## How to use
 
-- Run `kukajto-downloader`
-- Select the video
-- Click `Analyze`
-- Download, copy video url or play preview
+- Run the program or type `kukajto-downloader`
+- Select the video and click `Analyze`
+- Open VLC, then navigate to `Media`→`Open Network Stream` or press <kbd>Ctrl</kbd>+<kbd>N</kbd>
+- Paste video url into `Please enter a network URL` input
+
+- For those who want to add subtitles
+
+  - Check `Show more options`
+  - Check `Play another media`
+  - Paste subtitles into `Extra media` input
+
+- Click `Play`
 
 ## Supported sources
 
-The downloader currently supports following sources:
+Kukajto is currently using following source:
 
-- [x] TAP
-- [x] MIX
-- [ ] NET
-- [ ] MON
-- [ ] DOD
+| Shortcut | Domain         | Support | Play\* | Format |
+| -------- | -------------- | ------- | ------ | ------ |
+| TAP      | streamtape.com | ✅      | ✅     | mp4    |
+| MIX      | mixdrop.co     | ✅      | ✅     | mp4    |
+| MON      | filemoon.sx    | ✅      | ✅     | m3u8   |
+| DOD      | -              | -       | -      | -      |
+| NET      | -              | -       | -      | -      |
+
+\*Can be analyzed without playing video first.
+
+## Preview
+
+![preview](./preview.gif)
 
 ## Using in code
 
@@ -41,17 +59,15 @@ driver = webdriver.Chrome()
 # mixdrop source, english, czech subtitles
 driver.get("https://film.kukaj.io/matrix/1?subs=0&lng=EN")
 
-video, subs = Kukaj(driver).run()
+# analyze kukaj site
+result = Kukaj(driver).get()
 
-print(video)
-print(subs)
+# prints the url of video and subtitles
+print(result.video)
+print(result.subtitles)
 
 driver.quit()
 ```
-
-## Preview
-
-![preview](./preview.gif)
 
 ## Disclaimer
 
