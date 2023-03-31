@@ -5,12 +5,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from ..wrapper import Kukaj
 
-from .dialogs import ask_file_save_location
-from .utils import download_file
 from .constants import ASSETS_DIR
 from .constants import HOME_PAGE
-from .constants import VIDEO_SUFFIX
-from .constants import SUBS_SUFFIX
 import eel
 
 video = ""
