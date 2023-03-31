@@ -47,30 +47,6 @@ def analyze():
     
     return video, subtitles
 
-@eel.expose
-def download_video():
-    if not video: raise RuntimeError("no video analyzed")
-
-    if not (path := ask_file_save_location(title="select video path")): return False
-
-    with open(path if path.endswith(VIDEO_SUFFIX) else path + VIDEO_SUFFIX, "wb") as video_file:
-        download_file(video, video_file, headers={"User-Agent": user_agent}, update=lambda percent: eel.updateVideoDownloadBar(percent))
-
-    return True
-    
-
-@eel.expose
-def download_subs():
-    if not subtitles: raise RuntimeError("no subs analyzed")
-
-    if not (path := ask_file_save_location(title="select subs path")): return False
-
-    with open(path if path.endswith(SUBS_SUFFIX) else path + SUBS_SUFFIX, "wb") as subs_file:
-        download_file(subtitles, subs_file, headers={"User-Agent": user_agent}, update=lambda percent: eel.updateSubsDownloadBar(percent))
-    
-    return True
-
-
 def main():
     try:
         eel.start("index.html", size=(480, 640))
