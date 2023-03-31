@@ -22,7 +22,6 @@ src/kukajto_downloader/web/utils.py
 src/kukajto_downloader/web/assets/Ubuntu-Regular.ttf
 src/kukajto_downloader/web/assets/favicon.ico
 src/kukajto_downloader/web/assets/favicon.png
-src/kukajto_downloader/web/assets/frame.png
 src/kukajto_downloader/web/assets/index.html
 src/kukajto_downloader/web/assets/script.js
 src/kukajto_downloader/web/assets/style.css

@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: kukajto-downloader
-Version: 1.1
-Summary: This program can find the direct url of a video or subtitle file from kukaj.io.
+Version: 1.2
+Summary: This program can find the direct url of a video or subtitle file from kukaj.to.
 Author-email: Juraj Honsch <jurakin.dev@gmail.com>
 Project-URL: Homepage, https://github.com/jurakin/kukajto-downloader
 Project-URL: Bug Tracker, https://github.com/jurakin/kukajto-downloader/issues
@@ -12,27 +12,52 @@ Requires-Python: >=3.7
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
+<img src="./favicon.png" width="100px" alt="KukajTo Downloader"/>
+
 # KukajTo Downloader - get a direct url to a video or subtitle file
 
-This program can find the direct url of a video or subtitle file from `film.kukaj.io` or `serial.kukaj.io`, which can be used for downloading the video or opening the vlc network stream.
+This program can find the direct url of a video or subtitle file from [kukaj.to](https://kukaj.io/), that can be opened in the [VLC media player](https://www.videolan.org/vlc/).
+
+## Installation
+
+- [Google Chrome](https://www.google.com/chrome/) (a reasonable version) must be installed in order **to use web gui of the downloader**.
+- Windows
+  - Install precompiled [latest setup from releases](https://github.com/jurakin/kukajto-downloader/releases/latest)
+- Python and cmd use
+  - Install from pip package `pip install kukajto-downloader`
 
 ## How to use
 
-- Install pip package `pip install git+https://github.com/jurakin/kukajto-downloader`
-- Run `kukajto-downloader`
-- Select the video
-- Click `Analyze`
-- Download, copy video url or play preview
+- Run the program or type `kukajto-downloader`
+- Select the video and click `Analyze`
+- Open VLC, then navigate to `Media`→`Open Network Stream` or press <kbd>Ctrl</kbd>+<kbd>N</kbd>
+- Paste video url into `Please enter a network URL` input
+
+- For those who want to add subtitles
+
+  - Check `Show more options`
+  - Check `Play another media`
+  - Paste subtitles into `Extra media` input
+
+- Click `Play`
 
 ## Supported sources
 
-The downloader currently supports following sources:
+Kukajto is currently using following source:
 
-- [x] TAP
-- [x] MIX
-- [ ] NET
-- [ ] MON
-- [ ] DOD
+| Shortcut | Domain         | Support | Play\* | Format |
+| -------- | -------------- | ------- | ------ | ------ |
+| TAP      | streamtape.com | ✅      | ✅     | mp4    |
+| MIX      | mixdrop.co     | ✅      | ✅     | mp4    |
+| MON      | filemoon.sx    | ✅      | ✅     | m3u8   |
+| DOD      | -              | -       | -      | -      |
+| NET      | -              | -       | -      | -      |
+
+\*Can be analyzed without playing video first.
+
+## Preview
+
+![preview](./preview.gif)
 
 ## Using in code
 
@@ -48,17 +73,68 @@ driver = webdriver.Chrome()
 # mixdrop source, english, czech subtitles
 driver.get("https://film.kukaj.io/matrix/1?subs=0&lng=EN")
 
-video, subs = Kukaj(driver).run()
+# analyze kukaj site
+result = Kukaj(driver).get()
 
-print(video)
-print(subs)
+# prints the url of video and subtitles
+print(result.video)
+print(result.subtitles)
 
 driver.quit()
 ```
 
-## Preview
+Custom scraper can be created too. This is an example how `MixdropScraper` is implemented:
 
-![preview](./preview.gif)
+```python
+from selenium import webdriver
+
+from src.kukajto_downloader import Kukaj
+from src.kukajto_downloader import Scraper, UnsupportedStructureError
+
+driver = webdriver.Chrome()
+
+class MixdropScraper:
+    """
+    Scraper class must have following methods:
+        __init__
+            Arguments:
+                driver - selenium webdriver instance
+        get
+            Method that extracts url from the source
+
+            Arguments:
+                iframe - selenium iframe object of source
+
+            Returns:
+                url - An url that will be displayed
+
+    """
+    def __init__(self, driver) -> None:
+        self.driver = driver
+
+    def get(self) -> str: # required method
+        url = self.driver.execute_script("return MDCore.wurl")
+
+        if not url:
+            raise UnsupportedStructureError
+
+        return url
+
+# mixdrop source, english, czech subtitles
+driver.get("https://film.kukaj.io/matrix/3?subs=0&lng=EN")
+
+# create scraper instance
+scraper = Scraper(driver)
+
+# attach new scraper
+scraper.attach("mixdrop.co", MixdropScraper)
+
+# analyze kukaj site
+result = Kukaj(driver).get(scraper)
+
+# prints the url of video and subtitles
+print(result.video)
+```
 
 ## Disclaimer
 

@@ -1,19 +1,20 @@
+from .constants import KUKAJ_DOMAINS
+
 class KukajError(Exception):
-    def __init__(self, *args: object) -> None:
+    message = "an error occured, please report an issue"
+    def __init__(self, *args) -> None:
+        if not args: args = [self.message]
+
         super().__init__(*args)
 
 
 class UnsupportedStructureError(KukajError):
-    pass
+    message = "the structure of kukaj is not supported, please report an issue"
 
 
 class UnsupportedSiteError(KukajError):
-    pass
+    message = f"the site domain must match one of ({', '.join(KUKAJ_DOMAINS)})"
 
 
 class UnsupportedSourceError(KukajError):
-    pass
-
-
-class DownloadError(KukajError):
-    pass
+    message = "the source is not currently supported, use other source please"

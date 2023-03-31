@@ -36,15 +36,27 @@ p, a {
     line-height: 1.3em;
 }
 
+p {
+    margin-bottom: 2em;
+}
+
 span {
     font: inherit;
     color: inherit;
+}
+
+html, body {
+    height: 100%;
 }
 
 body {
     padding: 1em;
     background-color: var(--secondary);
     color: var(--white);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 input, button {

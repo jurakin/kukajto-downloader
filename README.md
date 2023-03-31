@@ -69,6 +69,59 @@ print(result.subtitles)
 driver.quit()
 ```
 
+Custom scraper can be created too. This is an example how `MixdropScraper` is implemented:
+
+```python
+from selenium import webdriver
+
+from src.kukajto_downloader import Kukaj
+from src.kukajto_downloader import Scraper, UnsupportedStructureError
+
+driver = webdriver.Chrome()
+
+class MixdropScraper:
+    """
+    Scraper class must have following methods:
+        __init__
+            Arguments:
+                driver - selenium webdriver instance
+        get
+            Method that extracts url from the source
+
+            Arguments:
+                iframe - selenium iframe object of source
+
+            Returns:
+                url - An url that will be displayed
+
+    """
+    def __init__(self, driver) -> None:
+        self.driver = driver
+
+    def get(self) -> str: # required method
+        url = self.driver.execute_script("return MDCore.wurl")
+
+        if not url:
+            raise UnsupportedStructureError
+
+        return url
+
+# mixdrop source, english, czech subtitles
+driver.get("https://film.kukaj.io/matrix/3?subs=0&lng=EN")
+
+# create scraper instance
+scraper = Scraper(driver)
+
+# attach new scraper
+scraper.attach("mixdrop.co", MixdropScraper)
+
+# analyze kukaj site
+result = Kukaj(driver).get(scraper)
+
+# prints the url of video and subtitles
+print(result.video)
+```
+
 ## Disclaimer
 
 FOR EDUCATIONAL AND INFORMATIONAL PURPOSES ONLY.

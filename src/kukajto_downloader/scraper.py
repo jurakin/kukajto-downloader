@@ -5,71 +5,86 @@ from .utils import urlparse
 from .exceptions import UnsupportedSourceError
 from .exceptions import UnsupportedStructureError
 
-from .constants import STREAMTAPE_SOURCE, MIXDROP_SOURCE
-
 
 class ScraperTemplate:
-    def __init__(self, driver) -> None:
-        self.driver = driver
-
-    def _fixurl(self, url: str) -> str:
+    def _fix_scheme(self, url: str) -> str:
         if urlparse(url).scheme == "":
             url = "https:" + url
-
-        return url
-
-    def scrape(self) -> str:
-        url = self._geturl()
-
-        url = self._fixurl(url)
 
         return url
 
 
 class StreamtapeScraper(ScraperTemplate):
     def __init__(self, driver) -> None:
-        super().__init__(driver)
+        self.driver = driver
 
-    def _geturl(self):
+    def get(self):
         video = self.driver.find_element(By.CSS_SELECTOR, "video#mainvideo")
 
         if not (url := video.get_attribute("src")):
-            raise UnsupportedStructureError("the structure of kukaj is not supported, please report an issue")
+            raise UnsupportedStructureError
 
-        return url
+        return self._fix_scheme(url)
 
 
 class MixdropScraper(ScraperTemplate):
     def __init__(self, driver) -> None:
-        super().__init__(driver)
+        self.driver = driver
 
-    def _geturl(self) -> str:
+    def get(self) -> str:
         url = self.driver.execute_script("return MDCore.wurl")
 
         if not url:
-            raise UnsupportedStructureError("the structure of kukaj is not supported, please report an issue")
+            raise UnsupportedStructureError
 
-        return url
+        return self._fix_scheme(url)
+
+class FilemoonScraper(ScraperTemplate):
+    def __init__(self, driver) -> None:
+        self.driver = driver
+
+    def get(self) -> str:
+        url = self.driver.execute_script("return videop.hls.url")
+
+        if not url:
+            raise UnsupportedStructureError
+
+        return self._fix_scheme(url)
 
 
 class Scraper:
     SOURCES = {
-        STREAMTAPE_SOURCE: StreamtapeScraper,
-        MIXDROP_SOURCE: MixdropScraper,
+        "streamtape.com": StreamtapeScraper,
+        "mixdrop.co": MixdropScraper,
+        "filemoon.sx": FilemoonScraper,
     }
 
-    def __init__(self, driver, source) -> None:
+    def __init__(self, driver) -> None:
         self.driver = driver
-        self.source = source
+    
+    def _get_domain(self, iframe):
+        return urlparse(iframe.get_attribute("src")).netloc
 
-    def scrape(self):
-        domain = urlparse(self.source).netloc
+    def get(self, iframe):
+        domain = self._get_domain(iframe)
 
-        try:
-            scraper = self.SOURCES[domain](self.driver)
-        except KeyError:
-            raise UnsupportedSourceError("the source is not currently supported, use other source please") from None
+        self.driver.switch_to.frame(iframe)
 
-        video = scraper.scrape()
+        if domain not in self.SOURCES:
+            raise UnsupportedSourceError from None
+        
+        scraper = self.SOURCES[domain](self.driver)
+        
+        video = scraper.get()
 
         return video
+    
+    def attach(self, domain, scraper):
+        if not hasattr(scraper, "get"):
+            raise ValueError("scraper must have get method")
+
+        self.SOURCES[domain] = scraper
+    
+    def detach(self, domain):
+        if domain in self.SOURCES:
+            del self.SOURCES[domain]

@@ -1,16 +1,16 @@
-from .scraper import Scraper
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
+from .scraper import Scraper
 from .utils import urlparse
 
 from .constants import KUKAJ_DOMAINS
-from .constants import KUKFRAME_IFRAME
-from .constants import NEEDSLEEP_IFRAME
-
 from .exceptions import UnsupportedSiteError
 from .exceptions import UnsupportedStructureError
 
-from selenium.common.exceptions import NoSuchElementException
+from collections import namedtuple
 
+KukajResult = namedtuple("KukajResult", ("video", "subtitles"))
 
 class Kukaj:
     def __init__(self, driver) -> None:
@@ -18,7 +18,7 @@ class Kukaj:
     
     def _check_domain(self, url: str) -> None:
         if urlparse(url).netloc not in KUKAJ_DOMAINS:
-            raise UnsupportedSiteError(f"the site domain must match one of ({', '.join(KUKAJ_DOMAINS)})")
+            raise UnsupportedSiteError
 
     def _get_subtitles(self, needsleep_iframe) -> str:
         subs = needsleep_iframe.get_attribute("name")
@@ -27,11 +27,10 @@ class Kukaj:
             subs = subs.split("subs:", 1)[1]
 
         return subs
-
-    def _get_source(self, needsleep_iframe) -> str:
-        return needsleep_iframe.get_attribute("src")
     
-    def run(self):
+    def get(self, scraper=None):
+        if scraper is None: scraper = Scraper(self.driver)
+
         # switch to default body frame
         self.driver.switch_to.default_content()
         
@@ -40,23 +39,20 @@ class Kukaj:
         self._check_domain(url)
 
         try:
-            iframe = self.driver.find_element(*KUKFRAME_IFRAME)
+            iframe = self.driver.find_element(By.CSS_SELECTOR, "iframe#kukframe")
         except NoSuchElementException:
-            raise UnsupportedStructureError("the structure of kukaj is not supported, please report an issue") from None
+            raise UnsupportedStructureError from None
         self.driver.switch_to.frame(iframe)
 
         try:
-            iframe = self.driver.find_element(*NEEDSLEEP_IFRAME)
+            iframe = self.driver.find_element(By.CSS_SELECTOR, "div#needsleep iframe")
         except NoSuchElementException:
-            raise UnsupportedStructureError("the structure of kukaj is not supported, please report an issue") from None
+            raise UnsupportedStructureError from None
 
         subs = self._get_subtitles(iframe)
-        source = self._get_source(iframe)
 
-        self.driver.switch_to.frame(iframe)
-
-        video = Scraper(self.driver, source).scrape()
+        video = scraper.get(iframe)
 
         self.driver.switch_to.default_content()
 
-        return (video, subs)
+        return KukajResult(video, subs)
