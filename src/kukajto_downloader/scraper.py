@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from .utils import urlparse
+from urllib.parse import urlparse
 
 from .exceptions import UnsupportedSourceError
 from .exceptions import UnsupportedStructureError
