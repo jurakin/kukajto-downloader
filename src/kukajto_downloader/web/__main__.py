@@ -26,8 +26,6 @@ def create_driver():
 
 driver = create_driver()
 
-user_agent = driver.execute_script("return window.navigator.userAgent")
-
 kukaj = Kukaj(driver)
 
 eel.init(ASSETS_DIR)

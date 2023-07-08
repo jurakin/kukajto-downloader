@@ -2,7 +2,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
 from .scraper import Scraper
-from .utils import urlparse
+from urllib.parse import urlparse
 
 from .constants import KUKAJ_DOMAINS
 from .exceptions import UnsupportedSiteError
@@ -28,15 +28,20 @@ class Kukaj:
 
         return subs
     
+    def _get_active_source(self) -> str:
+        source = self.driver.find_element(By.CSS_SELECTOR, "div.subplayermenu div.wwwrrrap a.active span")
+        
+        return source.text.lower()
+    
     def get(self, scraper=None):
         if scraper is None: scraper = Scraper(self.driver)
 
         # switch to default body frame
         self.driver.switch_to.default_content()
         
-        url = self.driver.execute_script("""return window.location.href;""")
+        self._check_domain(self.driver.execute_script("""return window.location.href;"""))
 
-        self._check_domain(url)
+        source = self._get_active_source()
 
         try:
             iframe = self.driver.find_element(By.CSS_SELECTOR, "iframe#kukframe")
@@ -51,7 +56,7 @@ class Kukaj:
 
         subs = self._get_subtitles(iframe)
 
-        video = scraper.get(iframe)
+        video = scraper.get(iframe, source)
 
         self.driver.switch_to.default_content()
 
