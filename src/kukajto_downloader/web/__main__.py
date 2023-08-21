@@ -1,7 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 from ..wrapper import Kukaj
 
@@ -17,7 +16,7 @@ def create_driver():
     options = ChromeOptions()
     options.add_argument("--incognito")
 
-    service = Service(ChromeDriverManager().install())
+    service = Service()
     driver = webdriver.Chrome(service=service, options=options)
 
     driver.get(HOME_PAGE)
