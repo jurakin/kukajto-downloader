@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: kukajto-downloader
-Version: 1.2
-Summary: This program can find the direct url of a video or subtitle file from kukaj.to.
+Version: 1.2.1
+Summary: This program can find the direct url of a video or subtitle file from kukaj.io.
 Author-email: Juraj Honsch <jurakin.dev@gmail.com>
 Project-URL: Homepage, https://github.com/jurakin/kukajto-downloader
 Project-URL: Bug Tracker, https://github.com/jurakin/kukajto-downloader/issues
