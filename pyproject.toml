@@ -15,8 +15,6 @@ dependencies = [
     "selenium>=4.7",
     "webdriver-manager",
     "eel",
-    "requests",
-    "tk",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",

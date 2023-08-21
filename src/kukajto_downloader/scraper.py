@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 
-from .utils import urlparse
+from urllib.parse import urlparse
 
 from .exceptions import UnsupportedSourceError
 from .exceptions import UnsupportedStructureError
@@ -54,30 +54,21 @@ class FilemoonScraper(ScraperTemplate):
 
 class Scraper:
     SOURCES = {
-        "streamtape.com": StreamtapeScraper,
-        "mixdrop.co": MixdropScraper,
-        "filemoon.sx": FilemoonScraper,
+        "tap": StreamtapeScraper,
+        "mix": MixdropScraper,
+        "mon": FilemoonScraper,
     }
 
     def __init__(self, driver) -> None:
         self.driver = driver
-    
-    def _get_domain(self, iframe):
-        return urlparse(iframe.get_attribute("src")).netloc
 
-    def get(self, iframe):
-        domain = self._get_domain(iframe)
-
+    def get(self, iframe, source):
         self.driver.switch_to.frame(iframe)
-
-        if domain not in self.SOURCES:
-            raise UnsupportedSourceError from None
         
-        scraper = self.SOURCES[domain](self.driver)
-        
-        video = scraper.get()
+        scraper = self.SOURCES.get(source)
+        if scraper is None: raise UnsupportedSourceError from None
 
-        return video
+        return scraper(self.driver).get()
     
     def attach(self, domain, scraper):
         if not hasattr(scraper, "get"):
